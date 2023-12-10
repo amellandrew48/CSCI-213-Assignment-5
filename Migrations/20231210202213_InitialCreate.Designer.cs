@@ -12,7 +12,7 @@ using MusicShop.Data;
 namespace MyMusicShop.Migrations
 {
     [DbContext(typeof(MusicShopContext))]
-    [Migration("20231205231116_InitialCreate")]
+    [Migration("20231210202213_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -100,7 +100,7 @@ namespace MyMusicShop.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -127,6 +127,9 @@ namespace MyMusicShop.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
+
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Password")
                         .IsRequired()

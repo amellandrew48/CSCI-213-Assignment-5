@@ -1,0 +1,24 @@
+﻿@model IEnumerable<MyMusicShop.Models.MusicViewModel>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Artist</th>
+            <th>Genre</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.ArtistName</td>
+                <td>@item.GenreName</td>
+                
+            </tr>
+        }
+    </tbody>
+</table>

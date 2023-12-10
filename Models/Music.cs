@@ -10,9 +10,11 @@
         public int GenreId { get; set; }
         public int ArtistId { get; set; }
 
-       
-        public virtual Genre Genre { get; set; }
-        public virtual Artist Artist { get; set; }
-        public virtual ICollection<CartItem> CartItems { get; set; } 
+        public int UserId { get; set; }
+
+
+        public virtual Genre? Genre { get; set; }
+        public virtual Artist? Artist { get; set; }
+        public virtual ICollection<CartItem>? CartItems { get; set; }
     }
 }

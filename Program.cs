@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MusicShop.Data;
+using Microsoft.AspNetCore.Session;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,15 @@ builder.Services.AddControllersWithViews();
 // Add DbContext configuration here
 builder.Services.AddDbContext<MusicShopContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MyMusicShopContext")));
+
+// Add session services
+builder.Services.AddDistributedMemoryCache(); 
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
@@ -24,6 +34,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseSession(); // Use session middleware
 
 app.UseAuthorization();
 

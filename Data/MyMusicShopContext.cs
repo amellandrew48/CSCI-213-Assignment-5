@@ -16,12 +16,14 @@ namespace MusicShop.Data
         public DbSet<User> Users { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
 
-        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            
+            modelBuilder.Entity<Music>()
+                .Property(m => m.Price)
+                .HasColumnType("decimal(18, 2)");
         }
     }
 }
