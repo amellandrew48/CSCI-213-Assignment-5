@@ -1,0 +1,9 @@
+﻿@model IEnumerable<MyMusicShop.Models.Music>
+
+@foreach (var music in Model)
+{
+    <p>
+        @music.Title - @music.Artist.Name - @music.Genre.Name
+        <a href="@Url.Action("AddToCart", "Client", new { musicId = music.MusicId })">Add to Cart</a>
+    </p>
+}

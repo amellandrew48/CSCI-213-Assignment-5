@@ -19,7 +19,7 @@ public class ClientController : Controller
         var userId = HttpContext.Session.GetInt32("ClientUserId");
         if (!userId.HasValue)
         {
-            // Redirect to login or handle accordingly
+            //redirects
             return RedirectToAction("Index", "Home");
         }
 
@@ -52,7 +52,7 @@ public class ClientController : Controller
         var userId = HttpContext.Session.GetInt32("ClientUserId");
         if (!userId.HasValue)
         {
-            // Handle not logged in
+            
             return RedirectToAction("Index", "Home");
         }
 
@@ -60,7 +60,7 @@ public class ClientController : Controller
         {
             UserId = userId.Value,
             MusicId = musicId,
-            Quantity = 1 // or handle quantity logic
+            Quantity = 1 
         };
 
         _context.CartItems.Add(cartItem);
@@ -95,4 +95,26 @@ public class ClientController : Controller
 
         return RedirectToAction("Index");
     }
+
+    public IActionResult FilterMusic(string searchQuery = "")
+    {
+        var allMusicQuery = _context.Musics
+            .Include(m => m.Artist)
+            .Include(m => m.Genre)
+            .AsQueryable();
+
+        if (!string.IsNullOrEmpty(searchQuery))
+        {
+            allMusicQuery = allMusicQuery
+                .Where(m => m.Title.Contains(searchQuery)
+                            || m.Artist.Name.Contains(searchQuery)
+                            || m.Genre.Name.Contains(searchQuery));
+        }
+
+        var allMusic = allMusicQuery.ToList();
+
+        return PartialView("_MusicListPartial", allMusic);
+    }
+
+
 }

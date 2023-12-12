@@ -26,20 +26,24 @@
 
         <h2>Music Store</h2>
         <div>
-            <!-- Display general list of music -->
-            @foreach (var music in Model.AllMusic)
-            {
-                <p>
-                    @music.Title - @music.Artist.Name - @music.Genre.Name
-                    <a href="@Url.Action("AddToCart", "Client", new { musicId = music.MusicId })">Add to Cart</a>
-                </p>
-            }
+            <!-- Search Field -->
+            <input type="text" id="searchBox" class="form-control mb-2 mr-sm-2" placeholder="Search by Music Title, Artist, or Genre">
+
+            <!-- Container for the Music List -->
+            <div id="musicList">
+                @foreach (var music in Model.AllMusic)
+                {
+                    <p>
+                        @music.Title - @music.Artist.Name - @music.Genre.Name
+                        <a href="@Url.Action("AddToCart", "Client", new { musicId = music.MusicId })">Add to Cart</a>
+                    </p>
+                }
+            </div>
         </div>
 
         <h2>Cart</h2>
         <div>
             <!-- Display Cart Items -->
-            <!-- Assuming you have CartItems in your ViewModel -->
             @foreach (var item in Model.CartItems)
             {
                 <p>@item.Music.Title - Quantity: @item.Quantity</p>
@@ -47,6 +51,23 @@
             <a href="@Url.Action("BuyMusic", "Client")">Buy Music</a>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function filterMusic() {
+            var searchQuery = $('#searchBox').val();
+
+            $.ajax({
+                url: '@Url.Action("FilterMusic", "Client")',
+                data: { searchQuery: searchQuery },
+                success: function (data) {
+                    $('#musicList').html(data);
+                }
+            });
+        }
+
+        $('#searchBox').keyup(filterMusic);
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
